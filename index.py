@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
+import warnings
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # Define CSV file
 EXT870_0706 = "EXT870_2GU_20200706.CSV"
@@ -14,7 +17,7 @@ df_872 = pd.read_csv(EXT872_0706)
 
 # Sort CSV files by columns and contents of columns
 df_870_sorted = df_870.loc[
-    (df_870["AccountNumber"] == "2GU05001") & (df_871["AccountType"] == "1")
+    (df_870["AccountNumber"] == "2GU05001") & (df_870["AccountType"] == "1")
 ]
 df_870_sorted2 = df_870_sorted.loc[
     :, df_870_sorted.columns.isin(["AccountNumber", "AccountType", "Cusip", "Quantity"])
@@ -30,16 +33,26 @@ df_871_sorted2 = df_871_sorted.loc[
     df_871_sorted.columns.isin(["AccountNumber", "AccountType", "Cusip", "Quantity"]),
 ]
 
+# Does not account for only AccountType of 1
+
 df_872_sorted = df_872.loc[
-    (df_872["AccountNumber"] == "2GU05001") & (df_871["AccountType"] == "1")
+    (df_872["AccountNumber"] == "2GU05001") & (df_872["AccountType"] == 1)
 ]
 df_872_sorted2 = df_872_sorted.loc[
     :, df_872_sorted.columns.isin(["AccountNumber", "AccountType", "Cusip", "Quantity"])
 ]
+print (df_871_sorted2)
 
-df_all = pd.concat([df_871_sorted2, df_872_sorted2])
-pivot = df_all.sort_values("Cusip")
-print(pivot)
+#df_871_sorted2['Cusip'] = df_872_sorted2['Cusip']
+
+#df_872_sorted2['Final Quantity'] = np.where(df_871_sorted2['Cusip'] == df_872_sorted2['Cusip'], 
+#df_871_sorted2['Quantity'] + df_872_sorted2['Quantity'])
+#print (df_871_sorted2)
+
+#df_all = pd.concat([df_871_sorted2, df_872_sorted2])
+#pivot = df_all.sort_values("Cusip")
+#print(pivot)
+#df['final'] = 
 
 
 # print(df_third_shift["AccountNumber"])
